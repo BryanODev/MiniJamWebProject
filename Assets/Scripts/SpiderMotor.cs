@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 public class SpiderMotor : MonoBehaviour
 {
     public float spiderMoveSpeed;
-
     public Camera playerCamera;
     PlayerInputs playerInputs;
     Rigidbody2D spiderRB;
@@ -20,6 +19,9 @@ public class SpiderMotor : MonoBehaviour
 
     public GameObject SpiderWebProjectile;
 
+    public bool isGrounded = false;
+    public LayerMask groundable;
+
     private void Awake()
     {
         spiderRB = GetComponent<Rigidbody2D>();
@@ -27,6 +29,9 @@ public class SpiderMotor : MonoBehaviour
 
         playerInputs = new PlayerInputs();
         playerInputs.Enable();
+
+        //We need to make sure the gamemode instance spawns first!
+        GameMode.Instance.onStartGameDelegate += OnGameStart;
     }
 
     private void Start()
@@ -37,6 +42,11 @@ public class SpiderMotor : MonoBehaviour
     private void OnEnable()
     {
         playerInputs.Enable();
+    }
+
+    void OnGameStart() 
+    {
+        Debug.Log("Spider is now playing");
     }
 
     void SetUpPlayerInputs()
@@ -51,18 +61,44 @@ public class SpiderMotor : MonoBehaviour
     private void Update()
     {
         spiderAnimator.SetFloat("YVelocity", spiderRB.velocity.y);
+        spiderAnimator.SetBool("IsGrounded", isGrounded);
     }
 
     private void FixedUpdate()
     {
+        isGrounded = IsGrounded();
+
         SpiderVelocity.x = movementInput.x * spiderMoveSpeed * Time.fixedDeltaTime;
         SpiderVelocity.y = spiderRB.velocity.y;
 
         spiderRB.velocity = SpiderVelocity;
     }
 
+    bool IsGrounded() 
+    {
+        if(spiderRB.velocity.y == 0) 
+        {
+            Debug.Log("grouded");
+            return true;
+        }
+
+        if (Physics2D.Raycast(transform.position, Vector2.down, 1f, groundable)) 
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     void FireWeb() 
     {
+        if (isGrounded) 
+        {
+            LaunchSpider(Vector2.up, 800);
+
+            return;
+        }
+
         //Debug.Log("Fire Web!");
 
         //cursorPosition = playerCamera.ScreenToWorldPoint(playerInputs.Keyboard.Mouse.ReadValue<Vector2>());
@@ -97,6 +133,9 @@ public class SpiderMotor : MonoBehaviour
     private void OnDisable()
     {
         playerInputs.Disable();
+
+        //If we become disabled, means we lost!
+        GameMode.Instance.OnPlayerLost();
     }
 
     private void OnDrawGizmos()

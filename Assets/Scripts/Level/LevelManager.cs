@@ -11,8 +11,10 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
-
     [SerializeField] List<LevelSegment> segments = new List<LevelSegment>();
+
+    public Transform spider;
+    public Transform playerCamera;
 
     private void Awake()
     {
@@ -31,6 +33,25 @@ public class LevelManager : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++) 
         {
             segments.Add(transform.GetChild(i).GetComponent<LevelSegment>());
+        }
+    }
+
+    private void Update()
+    {
+        if (spider.position.y >= 75) 
+        {
+            Vector2 SpiderLocalPositionInSegment = segments[2].transform.InverseTransformPoint(spider.position);
+            Vector3 CameraLocalPositionInSegment = segments[2].transform.InverseTransformPoint(playerCamera.position);
+
+            segments[2].SetLevelSegmentLocation(new Vector3(0, 0, 0));
+            segments[3].SetLevelSegmentLocation(new Vector3(0, 30, 0));
+            segments[0].SetLevelSegmentLocation(new Vector3(0, 60, 0));
+            segments[1].SetLevelSegmentLocation(new Vector3(0, 90, 0));
+
+            spider.position = SpiderLocalPositionInSegment;
+
+            CameraLocalPositionInSegment.z = -10;
+            playerCamera.position = CameraLocalPositionInSegment;
         }
     }
 }

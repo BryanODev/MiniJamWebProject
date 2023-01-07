@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launchForce: 800
+  scoreToGive: 1
   canLaunch: 1
   IsIndestructable: 0
 --- !u!95 &7641724383564592678

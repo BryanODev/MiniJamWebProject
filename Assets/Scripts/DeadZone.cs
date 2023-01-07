@@ -6,8 +6,6 @@ public class DeadZone : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Player Died");
-
-        Destroy(collision.gameObject);
+        collision.gameObject.SetActive(false);
     }
 }

@@ -6,6 +6,7 @@ public class SpiderWeb : MonoBehaviour
 {
     public float launchForce = 800;
 
+    public int scoreToGive = 1;
     public bool canLaunch = true;
     public bool IsIndestructable = true;
 
@@ -25,7 +26,9 @@ public class SpiderWeb : MonoBehaviour
             if (!IsIndestructable)
             {
                 //Destroy gameobject for now
-                Destroy(gameObject);
+                gameObject.SetActive(false);
+
+                GameMode.Instance.AddScore(scoreToGive);
             }
         }
     }
