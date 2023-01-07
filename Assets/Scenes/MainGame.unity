@@ -194,7 +194,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 0}
+  m_BackGroundColor: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -421,6 +421,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flySpeed: 150
+  sinSpeed: 10
+  sinAmplitude: 80
   canMove: 1
   isAlive: 1
 --- !u!61 &794313712
@@ -570,6 +572,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flySpeed: 150
+  sinSpeed: 10
+  sinAmplitude: 80
   canMove: 1
   isAlive: 1
 --- !u!61 &821794012
@@ -719,6 +723,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flySpeed: 150
+  sinSpeed: 10
+  sinAmplitude: 80
   canMove: 1
   isAlive: 1
 --- !u!61 &857201519
@@ -868,6 +874,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flySpeed: 150
+  sinSpeed: 10
+  sinAmplitude: 80
   canMove: 1
   isAlive: 1
 --- !u!61 &870214790
@@ -1017,6 +1025,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flySpeed: 150
+  sinSpeed: 10
+  sinAmplitude: 80
   canMove: 1
   isAlive: 1
 --- !u!61 &890464595
@@ -1166,6 +1176,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flySpeed: 150
+  sinSpeed: 10
+  sinAmplitude: 80
   canMove: 1
   isAlive: 1
 --- !u!61 &968353467
@@ -1315,6 +1327,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flySpeed: 150
+  sinSpeed: 10
+  sinAmplitude: 80
   canMove: 1
   isAlive: 1
 --- !u!61 &1012493942
@@ -1464,6 +1478,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flySpeed: 150
+  sinSpeed: 10
+  sinAmplitude: 80
   canMove: 1
   isAlive: 1
 --- !u!61 &1139366424
@@ -1613,6 +1629,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flySpeed: 150
+  sinSpeed: 10
+  sinAmplitude: 80
   canMove: 1
   isAlive: 1
 --- !u!61 &1319642138
@@ -2108,6 +2126,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flySpeed: 150
+  sinSpeed: 10
+  sinAmplitude: 80
   canMove: 1
   isAlive: 1
 --- !u!61 &1625266360
@@ -2257,6 +2277,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flySpeed: 150
+  sinSpeed: 10
+  sinAmplitude: 80
   canMove: 1
   isAlive: 1
 --- !u!61 &1654402676
@@ -2439,6 +2461,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flySpeed: 150
+  sinSpeed: 10
+  sinAmplitude: 80
   canMove: 1
   isAlive: 1
 --- !u!61 &1891898896
@@ -2547,6 +2571,7 @@ GameObject:
   - component: {fileID: 1992394819}
   - component: {fileID: 1992394818}
   - component: {fileID: 1992394817}
+  - component: {fileID: 1992394822}
   m_Layer: 0
   m_Name: Spider
   m_TagString: Player
@@ -2604,18 +2629,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.021710053}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.41, y: 0.27}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.3703022, y: 0.21846992}
   m_EdgeRadius: 0
 --- !u!212 &1992394820
 SpriteRenderer:
@@ -2658,7 +2683,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f3fc6df35ef6eb247ace53004b30e76d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2678,12 +2703,32 @@ Transform:
   m_GameObject: {fileID: 1992394816}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 6, y: 6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1992394822
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992394816}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a4415022b23cf534c92f08ed828009fb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2080837544
 GameObject:
   m_ObjectHideFlags: 0
@@ -2831,6 +2876,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flySpeed: 150
+  sinSpeed: 10
+  sinAmplitude: 80
   canMove: 1
   isAlive: 1
 --- !u!1001 &8523592442329639854
@@ -2840,6 +2887,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8523592443472629018, guid: 20c294be9dfcb654581b288381f2dd25, type: 3}
+      propertyPath: IsIndestructable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8523592443472629021, guid: 20c294be9dfcb654581b288381f2dd25, type: 3}
       propertyPath: m_RootOrder
       value: 1

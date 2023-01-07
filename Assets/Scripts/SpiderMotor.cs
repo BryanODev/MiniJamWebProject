@@ -10,6 +10,7 @@ public class SpiderMotor : MonoBehaviour
     public Camera playerCamera;
     PlayerInputs playerInputs;
     Rigidbody2D spiderRB;
+    Animator spiderAnimator;
 
     Vector2 SpiderVelocity;
     [SerializeField] Vector2 movementInput;
@@ -20,6 +21,7 @@ public class SpiderMotor : MonoBehaviour
     private void Awake()
     {
         spiderRB = GetComponent<Rigidbody2D>();
+        spiderAnimator = GetComponent<Animator>();
 
         playerInputs = new PlayerInputs();
         playerInputs.Enable();
@@ -41,6 +43,11 @@ public class SpiderMotor : MonoBehaviour
         playerInputs.Keyboard.Fire.performed += ctx => FireWeb();
     }
 
+    private void Update()
+    {
+        spiderAnimator.SetFloat("YVelocity", spiderRB.velocity.y);
+    }
+
     private void FixedUpdate()
     {
         SpiderVelocity.x = movementInput.x * spiderMoveSpeed * Time.fixedDeltaTime;
@@ -51,16 +58,17 @@ public class SpiderMotor : MonoBehaviour
 
     void FireWeb() 
     {
-        Debug.Log("Fire Web!");
+        //Debug.Log("Fire Web!");
 
-        cursorPosition = playerCamera.ScreenToWorldPoint(playerInputs.Keyboard.Mouse.ReadValue<Vector2>());
+        //cursorPosition = playerCamera.ScreenToWorldPoint(playerInputs.Keyboard.Mouse.ReadValue<Vector2>());
 
         //For now, instantiate a projectile
         SpiderWebProjectile spiderWebProjectileComponent = Instantiate(SpiderWebProjectile, transform.position, Quaternion.identity).GetComponent<SpiderWebProjectile>();
 
         if (spiderWebProjectileComponent)
         {
-            Vector2 direction = cursorPosition - (Vector2) spiderWebProjectileComponent.transform.position;
+            //Vector2 direction = cursorPosition - (Vector2) spiderWebProjectileComponent.transform.position;
+            Vector2 direction = Vector2.down;
             direction.Normalize();
 
 
@@ -76,6 +84,7 @@ public class SpiderMotor : MonoBehaviour
 
     public void LaunchSpider(Vector3 Direction, float Force) 
     {
+        spiderAnimator.SetTrigger("Jump");
         spiderRB.velocity = Vector2.zero;
         spiderRB.AddForce(Direction * Force);
     }

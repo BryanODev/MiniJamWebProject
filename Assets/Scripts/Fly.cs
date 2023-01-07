@@ -10,6 +10,11 @@ public class Fly : MonoBehaviour
 
     public float flySpeed = 150;
 
+    Vector3 velocity;
+
+    public float sinSpeed = 10;
+    public float sinAmplitude = 80;
+
     public bool canMove = true;
     public bool isAlive = true;
     int axisDirection = 1;
@@ -20,11 +25,17 @@ public class Fly : MonoBehaviour
         flyCollider = GetComponent<Collider2D>();
     }
 
+    private void Update()
+    {
+        velocity.x = (axisDirection) * flySpeed;
+        velocity.y = sinAmplitude * Mathf.Sin(Time.time * sinSpeed);
+    }
+
     private void FixedUpdate()
     {
         if (canMove)
         {
-            flyRB.velocity = (Vector3.right * axisDirection) * flySpeed * Time.fixedDeltaTime;
+            flyRB.velocity = velocity * Time.fixedDeltaTime;
         }
     }
 
