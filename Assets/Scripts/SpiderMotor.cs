@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.SceneManagement;
+
 [RequireComponent(typeof(Rigidbody2D))]
 public class SpiderMotor : MonoBehaviour
 {
@@ -41,6 +43,9 @@ public class SpiderMotor : MonoBehaviour
     {
         playerInputs.Keyboard.Move.performed += ctx => AddMovementInput(ctx.ReadValue<float>());
         playerInputs.Keyboard.Fire.performed += ctx => FireWeb();
+
+        //Debuging only
+        playerInputs.Keyboard.ResetLevel.performed += ctx => ResetLevel();
     }
 
     private void Update()
@@ -98,6 +103,11 @@ public class SpiderMotor : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(cursorPosition, .25f);
+    }
+
+    void ResetLevel() 
+    {
+        SceneManager.LoadScene(0);
     }
 
 }

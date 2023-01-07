@@ -53,6 +53,15 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ResetLevel"",
+                    ""type"": ""Button"",
+                    ""id"": ""07b5eed7-6da5-46ac-b599-ec7bd1609bfa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -110,6 +119,17 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                     ""action"": ""Mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""610bf0e5-684a-4d0c-8197-0ab7b1ad4a6a"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ResetLevel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -121,6 +141,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         m_Keyboard_Move = m_Keyboard.FindAction("Move", throwIfNotFound: true);
         m_Keyboard_Fire = m_Keyboard.FindAction("Fire", throwIfNotFound: true);
         m_Keyboard_Mouse = m_Keyboard.FindAction("Mouse", throwIfNotFound: true);
+        m_Keyboard_ResetLevel = m_Keyboard.FindAction("ResetLevel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -183,6 +204,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Keyboard_Move;
     private readonly InputAction m_Keyboard_Fire;
     private readonly InputAction m_Keyboard_Mouse;
+    private readonly InputAction m_Keyboard_ResetLevel;
     public struct KeyboardActions
     {
         private @PlayerInputs m_Wrapper;
@@ -190,6 +212,7 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Keyboard_Move;
         public InputAction @Fire => m_Wrapper.m_Keyboard_Fire;
         public InputAction @Mouse => m_Wrapper.m_Keyboard_Mouse;
+        public InputAction @ResetLevel => m_Wrapper.m_Keyboard_ResetLevel;
         public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -208,6 +231,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @Mouse.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnMouse;
                 @Mouse.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnMouse;
                 @Mouse.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnMouse;
+                @ResetLevel.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnResetLevel;
+                @ResetLevel.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnResetLevel;
+                @ResetLevel.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnResetLevel;
             }
             m_Wrapper.m_KeyboardActionsCallbackInterface = instance;
             if (instance != null)
@@ -221,6 +247,9 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
                 @Mouse.started += instance.OnMouse;
                 @Mouse.performed += instance.OnMouse;
                 @Mouse.canceled += instance.OnMouse;
+                @ResetLevel.started += instance.OnResetLevel;
+                @ResetLevel.performed += instance.OnResetLevel;
+                @ResetLevel.canceled += instance.OnResetLevel;
             }
         }
     }
@@ -230,5 +259,6 @@ public partial class @PlayerInputs : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnMouse(InputAction.CallbackContext context);
+        void OnResetLevel(InputAction.CallbackContext context);
     }
 }
