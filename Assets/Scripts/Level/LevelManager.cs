@@ -16,6 +16,9 @@ public class LevelManager : MonoBehaviour
     public Transform spider;
     public Transform playerCamera;
 
+    public int currentSpiderAtSegmentIndex;
+    public int segmentSwapIndex;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -32,21 +35,61 @@ public class LevelManager : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++) 
         {
-            segments.Add(transform.GetChild(i).GetComponent<LevelSegment>());
+            LevelSegment segment = transform.GetChild(i).GetComponent<LevelSegment>();
+
+            if (segment)
+            {
+                segment.SetUpLevelSegment(this);
+                segments.Add(segment);
+            }
         }
     }
 
     private void Update()
     {
+        currentSpiderAtSegmentIndex = Mathf.RoundToInt(spider.transform.position.y / 37.5f);
+        currentSpiderAtSegmentIndex = Mathf.Clamp(currentSpiderAtSegmentIndex,0, segments.Count);
+
         if (spider.position.y >= 75) 
         {
-            Vector2 SpiderLocalPositionInSegment = segments[2].transform.InverseTransformPoint(spider.position);
-            Vector3 CameraLocalPositionInSegment = segments[2].transform.InverseTransformPoint(playerCamera.position);
+            Vector2 SpiderLocalPositionInSegment = Vector2.zero;
+            Vector3 CameraLocalPositionInSegment = Vector3.zero;
 
-            segments[2].SetLevelSegmentLocation(new Vector3(0, 0, 0));
-            segments[3].SetLevelSegmentLocation(new Vector3(0, 30, 0));
-            segments[0].SetLevelSegmentLocation(new Vector3(0, 60, 0));
-            segments[1].SetLevelSegmentLocation(new Vector3(0, 90, 0));
+
+            if (segmentSwapIndex == 0)
+            {
+                SpiderLocalPositionInSegment = segments[2].transform.InverseTransformPoint(spider.position);
+                CameraLocalPositionInSegment = segments[2].transform.InverseTransformPoint(playerCamera.position);
+
+                segments[2].SetLevelSegmentLocation(new Vector3(0, 0, 0));
+                segments[3].SetLevelSegmentLocation(new Vector3(0, 30, 0));
+
+                segments[0].SetLevelSegmentLocation(new Vector3(0, 60, 0));
+                segments[0].ResetLevelSegment();
+                segments[1].SetLevelSegmentLocation(new Vector3(0, 90, 0));
+                segments[1].ResetLevelSegment();
+
+                segmentSwapIndex = 1;
+            }
+            else if(segmentSwapIndex == 1)
+            {
+                SpiderLocalPositionInSegment = segments[0].transform.InverseTransformPoint(spider.position);
+                CameraLocalPositionInSegment = segments[0].transform.InverseTransformPoint(playerCamera.position);
+            
+                segments[0].SetLevelSegmentLocation(new Vector3(0, 0, 0));
+                segments[1].SetLevelSegmentLocation(new Vector3(0, 30, 0));
+
+                segments[2].SetLevelSegmentLocation(new Vector3(0, 60, 0));
+                segments[2].ResetLevelSegment();
+                segments[3].SetLevelSegmentLocation(new Vector3(0, 90, 0));
+                segments[3].ResetLevelSegment();
+
+                segmentSwapIndex = 0;
+            }
+
+
+            //Take Segment 2 and 3, and move them to the bottom.
+            //When player reaches again 75+ Move Segments 0 and 1 back to the bottom again
 
             spider.position = SpiderLocalPositionInSegment;
 

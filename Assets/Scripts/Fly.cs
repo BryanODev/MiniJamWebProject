@@ -25,6 +25,13 @@ public class Fly : MonoBehaviour
         flyCollider = GetComponent<Collider2D>();
     }
 
+    private void OnEnable()
+    {
+        isAlive = true;
+        //What if we want it to not move at all?
+        canMove = true;
+    }
+
     private void Update()
     {
         velocity.x = (axisDirection) * flySpeed;
@@ -51,5 +58,10 @@ public class Fly : MonoBehaviour
         {
             axisDirection *= -1;
         }
+    }
+
+    private void OnDisable()
+    {
+        
     }
 }

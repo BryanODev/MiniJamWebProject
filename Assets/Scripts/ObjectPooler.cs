@@ -58,6 +58,12 @@ public class ObjectPooler : MonoBehaviour
     {
         GameObject objectToGet = objects[poolKey].Dequeue();
         objectToGet.SetActive(true);
+        objects[poolKey].Enqueue(objectToGet);
         return objectToGet;
+    }
+
+    public void SetObjectToPoolerParent(Transform obj) 
+    {
+        obj.SetParent(transform);
     }
 }
