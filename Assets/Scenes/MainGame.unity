@@ -1123,7 +1123,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1414621426}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -25, z: -2}
+  m_LocalPosition: {x: 0, y: -19.3, z: -2}
   m_LocalScale: {x: 20.8989, y: 16.60515, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1144,18 +1144,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.04957024}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.32}
-    newSize: {x: 1.61, y: 0.32}
+    oldSize: {x: 0.21333334, y: 0.21333334}
+    newSize: {x: 1.61, y: 0.21}
     adaptiveTilingThreshold: 0.5
     drawMode: 2
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.50890476, y: 0.31536338}
+  m_Size: {x: 0.50890476, y: 0.21622287}
   m_EdgeRadius: 0
 --- !u!212 &1414621429
 SpriteRenderer:
@@ -1203,7 +1203,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 1.61, y: 0.32}
+  m_Size: {x: 1.61, y: 0.21}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1233,12 +1233,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3c32944f51308b4fbc9b041253ccb4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterSpeed: 2
-  fastWaterSpeed: 5
+  waterSpeed: 6
+  fastWaterSpeed: 10
   currentWaterSpeed: 0
   playerToWaterDistance: 0
   spider: {fileID: 1992394821}
-  allowedDistance: 35
+  allowedDistance: 30
 --- !u!95 &1414621432
 Animator:
   serializedVersion: 4
@@ -1284,7 +1284,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1488439304}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.805, z: -2}
+  m_LocalPosition: {x: 0, y: -0.751, z: 0}
   m_LocalScale: {x: 1.6072468, y: 1.291768, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1904,6 +1904,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2065338540}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1978990315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2285,6 +2297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8498e211af011bb4e895577bc821b2f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonSFX: {fileID: 8300000, guid: 082c0e3b270f07d4ebd874c0459b3eb8, type: 3}
 --- !u!1001 &4192209419468977086
 PrefabInstance:
   m_ObjectHideFlags: 0

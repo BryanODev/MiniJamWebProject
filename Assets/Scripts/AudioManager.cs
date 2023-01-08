@@ -7,6 +7,9 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
 
     AudioSource audioSource;
+
+    public AudioClip buttonSFX;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -29,6 +32,11 @@ public class AudioManager : MonoBehaviour
     public void PlayAudioOneShot(AudioClip clip) 
     {
         audioSource.PlayOneShot(clip);
+    }
+
+    public void PlayButtonSound() 
+    {
+        PlayAudioOneShot(buttonSFX);
     }
 
 }

@@ -30,6 +30,8 @@ public class SpiderMotor : MonoBehaviour
     public AudioClip[] ShootingClips;
     public AudioClip deathClip;
 
+    Coroutine FireWebCoroutine;
+
     private void Awake()
     {
         spiderRB = GetComponent<Rigidbody2D>();
@@ -63,7 +65,7 @@ public class SpiderMotor : MonoBehaviour
     void SetUpPlayerInputs()
     {
         playerInputs.Keyboard.Move.performed += ctx => AddMovementInput(ctx.ReadValue<float>());
-        playerInputs.Keyboard.Fire.performed += ctx => FireWeb();
+        playerInputs.Keyboard.Fire.performed += ctx => WantsToFireWeb();
 
         //Debuging only
         playerInputs.Keyboard.ResetLevel.performed += ctx => ResetLevel();
@@ -101,11 +103,20 @@ public class SpiderMotor : MonoBehaviour
         return false;
     }
 
-    void FireWeb() 
+    void WantsToFireWeb() 
+    {
+        if (FireWebCoroutine == null) 
+        {
+            FireWebCoroutine = StartCoroutine(FireWeb());
+        }
+    }
+
+    IEnumerator FireWeb() 
     {
         if (!isAlive)
         {
-            return;
+            FireWebCoroutine = null;
+            yield return null;
         }
 
         spiderAudioSource.PlayOneShot(GetRandomShootingAudioClip());
@@ -113,8 +124,8 @@ public class SpiderMotor : MonoBehaviour
         if (isGrounded) 
         {
             LaunchSpider(Vector2.up, 800);
-
-            return;
+            FireWebCoroutine = null;
+            yield return null;
         }
 
         //Debug.Log("Fire Web!");
@@ -134,6 +145,12 @@ public class SpiderMotor : MonoBehaviour
             spiderWebProjectileComponent.Instigator = gameObject;
             spiderWebProjectileComponent.SetProjectileDirection(direction);
         }
+
+        yield return new WaitForSeconds(0.3f);
+
+        FireWebCoroutine = null;
+
+        yield return null;
     }
 
     public void AddMovementInput(float axis) 

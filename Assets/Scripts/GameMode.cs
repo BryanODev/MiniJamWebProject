@@ -63,6 +63,13 @@ public class GameMode : MonoBehaviour
 
     public void RestartGame() 
     {
+        StartCoroutine(Restart());
+    }
+
+    IEnumerator Restart() 
+    {
+        yield return new WaitForSeconds(0.5f);
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
