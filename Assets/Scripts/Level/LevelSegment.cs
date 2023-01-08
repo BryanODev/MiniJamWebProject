@@ -32,6 +32,7 @@ public class LevelSegment : MonoBehaviour
     {
         float LevelSegmentFlySpawnYLocation = -15;
         float LevelSegmentPipeSpawnYLocation = -10;
+        float LevelSegmentSpikesSpawnYLocation = -5;
 
         for (int i = 0; i < 10; i++)
         {
@@ -46,12 +47,12 @@ public class LevelSegment : MonoBehaviour
         for (int i = 0; i < 3; i++) 
         {
             Vector2 SpawnLocation = transform.position;
-            float sideRandomRange = Random.Range(0, 10);
+            float sideRandomRange = Random.Range(0,75);
             int facingDirection = 1;
 
             SpawnLocation.x = 4;
 
-            if (sideRandomRange >= 5)
+            if (sideRandomRange >= 50)
             {
                 SpawnLocation.x *= -1;
                 facingDirection = -1;
@@ -62,6 +63,28 @@ public class LevelSegment : MonoBehaviour
 
             LevelSegmentPipeSpawnYLocation += 10;
         }
+
+        for (int i = 0; i < 3; i++)
+        {
+            Vector2 SpawnLocation = transform.position;
+            float sideRandomRange = Random.Range(0, 75);
+            int facingDirection = 1;
+
+            SpawnLocation.x = -5;
+
+            if (sideRandomRange >= 50)
+            {
+                SpawnLocation.x *= -1;
+                facingDirection = -1;
+            }
+
+            SpawnLocation.y = transform.position.y + LevelSegmentSpikesSpawnYLocation;
+            SpawnSpikes(SpawnLocation, facingDirection);
+
+            LevelSegmentSpikesSpawnYLocation += 5;
+        }
+
+        
     }
 
     public void SetLevelSegmentLocation(Vector2 newPosition) 
@@ -91,6 +114,19 @@ public class LevelSegment : MonoBehaviour
         Pipe.SetActive(true);
     }
 
+    void SpawnSpikes(Vector2 position, int facingDirection = 1)
+    {
+        GameObject Spikes = pooler.GetObjectFromPool("Spikes");
+        Spikes.transform.position = position;
+        Spikes.transform.SetParent(transform);
+
+        Vector2 scale = Vector3.one;
+        scale.x = facingDirection;
+        Spikes.transform.localScale = scale;
+
+        Spikes.SetActive(true);
+    }
+
     public void ResetLevelSegment() 
     {
         Debug.Log(transform.childCount);
@@ -105,13 +141,14 @@ public class LevelSegment : MonoBehaviour
                 Debug.Log("Moved Child: " + i + " index");
                 
                 child.position = pooler.transform.position;
+                //Problem with parenting? Idk
                 //pooler.SetObjectToPoolerParent(child); //child.SetParent(ObjectPooler.Instance.GetPoolerTransform());
                 child.gameObject.SetActive(false);
 
             }
         }
 
-        //SetUpLevelSegment();
+        SetUpLevelSegment();
     }
 
     private void OnDrawGizmos()

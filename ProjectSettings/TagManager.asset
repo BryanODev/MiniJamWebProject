@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Insect
   - Structure
+  - DeadZone
   layers:
   - Default
   - TransparentFX

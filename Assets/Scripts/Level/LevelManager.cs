@@ -13,6 +13,8 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
     [SerializeField] List<LevelSegment> segments = new List<LevelSegment>();
 
+    public Water water;
+
     public Transform spider;
     public Transform playerCamera;
 
@@ -50,12 +52,14 @@ public class LevelManager : MonoBehaviour
         currentSpiderAtSegmentIndex = Mathf.RoundToInt(spider.transform.position.y / 37.5f);
         currentSpiderAtSegmentIndex = Mathf.Clamp(currentSpiderAtSegmentIndex,0, segments.Count);
 
+        water.playerToWaterDistance = Vector3.Distance(water.transform.position, spider.position);
+
         if (spider.position.y >= 75) 
         {
             Vector2 SpiderLocalPositionInSegment = Vector2.zero;
             Vector3 CameraLocalPositionInSegment = Vector3.zero;
 
-
+            
             if (segmentSwapIndex == 0)
             {
                 SpiderLocalPositionInSegment = segments[2].transform.InverseTransformPoint(spider.position);
@@ -95,6 +99,8 @@ public class LevelManager : MonoBehaviour
 
             CameraLocalPositionInSegment.z = -10;
             playerCamera.position = CameraLocalPositionInSegment;
+
+            water.SetYPosition(spider.position.y - water.playerToWaterDistance);
         }
     }
 }

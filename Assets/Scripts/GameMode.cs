@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameMode : MonoBehaviour
 {
     public float Score;
     public static GameMode Instance;
+    public Water water;
 
     public delegate void OnStartGameDelegate();
     public OnStartGameDelegate onStartGameDelegate;
@@ -50,5 +52,17 @@ public class GameMode : MonoBehaviour
     {
         Debug.Log("Game Over!");
         Debug.Log("We lost!");
+
+        UIManager.Instance.ToggleHighScoreScreen();
+
+        if (water) 
+        {
+            water.StopWaterRise();
+        }
+    }
+
+    public void RestartGame() 
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

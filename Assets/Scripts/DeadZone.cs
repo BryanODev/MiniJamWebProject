@@ -6,10 +6,10 @@ public class DeadZone : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if (collision.CompareTag("Structure")) 
-        //{
-        //    return;
-        //}
+        if (collision.CompareTag("DeadZone")) 
+        {
+            return;
+        }
 
         collision.gameObject.SetActive(false);
     }

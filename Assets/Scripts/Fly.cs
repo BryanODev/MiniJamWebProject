@@ -8,6 +8,7 @@ public class Fly : MonoBehaviour
     Rigidbody2D flyRB;
     Collider2D flyCollider;
 
+    public float defaultFlySpeed = 150;
     public float flySpeed = 150;
 
     Vector3 velocity;
@@ -19,10 +20,13 @@ public class Fly : MonoBehaviour
     public bool isAlive = true;
     int axisDirection = 1;
 
+
+
     private void Awake()
     {
         flyRB = GetComponent<Rigidbody2D>();
         flyCollider = GetComponent<Collider2D>();
+
     }
 
     private void OnEnable()
@@ -30,6 +34,10 @@ public class Fly : MonoBehaviour
         isAlive = true;
         //What if we want it to not move at all?
         canMove = true;
+
+        flySpeed = defaultFlySpeed;
+        float speedModifier = Random.Range(1, 3);
+        flySpeed *= speedModifier;
     }
 
     private void Update()

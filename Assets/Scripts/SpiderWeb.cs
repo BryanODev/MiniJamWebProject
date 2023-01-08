@@ -10,6 +10,34 @@ public class SpiderWeb : MonoBehaviour
     public bool canLaunch = true;
     public bool IsIndestructable = true;
 
+    AudioSource audioSource;
+    public AudioClip[] WebbedClips;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    private void OnEnable()
+    {
+        audioSource.PlayOneShot(GetRandomWebbedAudioClip());
+    }
+
+    AudioClip GetRandomWebbedAudioClip()
+    {
+        int randomJump = Random.Range(0, WebbedClips.Length);
+
+        if (randomJump < WebbedClips.Length)
+        {
+            if (WebbedClips[randomJump] != null)
+            {
+                return WebbedClips[randomJump];
+            }
+        }
+
+        return null;
+    }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         SpiderMotor spider = other.gameObject.GetComponent<SpiderMotor>();

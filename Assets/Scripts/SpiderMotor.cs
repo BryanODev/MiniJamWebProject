@@ -12,6 +12,7 @@ public class SpiderMotor : MonoBehaviour
     PlayerInputs playerInputs;
     Rigidbody2D spiderRB;
     Animator spiderAnimator;
+    BoxCollider2D spiderCollider;
 
     Vector2 SpiderVelocity;
     [SerializeField] Vector2 movementInput;
@@ -22,6 +23,13 @@ public class SpiderMotor : MonoBehaviour
     public bool isGrounded = false;
     public LayerMask groundable;
 
+    bool isAlive = true;
+
+    AudioSource spiderAudioSource;
+    public AudioClip[] JumpClips;
+    public AudioClip[] ShootingClips;
+    public AudioClip deathClip;
+
     private void Awake()
     {
         spiderRB = GetComponent<Rigidbody2D>();
@@ -29,6 +37,9 @@ public class SpiderMotor : MonoBehaviour
 
         playerInputs = new PlayerInputs();
         playerInputs.Enable();
+
+        spiderAudioSource = GetComponent<AudioSource>();
+        spiderCollider = GetComponent<BoxCollider2D>();
 
         //We need to make sure the gamemode instance spawns first!
         GameMode.Instance.onStartGameDelegate += OnGameStart;
@@ -92,6 +103,13 @@ public class SpiderMotor : MonoBehaviour
 
     void FireWeb() 
     {
+        if (!isAlive)
+        {
+            return;
+        }
+
+        spiderAudioSource.PlayOneShot(GetRandomShootingAudioClip());
+
         if (isGrounded) 
         {
             LaunchSpider(Vector2.up, 800);
@@ -120,11 +138,29 @@ public class SpiderMotor : MonoBehaviour
 
     public void AddMovementInput(float axis) 
     {
+        if (!isAlive) 
+        {
+            movementInput.x = 0;
+            return;
+        }
+
         movementInput.x = axis;
     }
 
     public void LaunchSpider(Vector3 Direction, float Force) 
     {
+        if (!isAlive)
+        {
+            return;
+        }
+
+        spiderAudioSource.clip = GetRandomJumpAudioClip();
+
+        if (spiderAudioSource.clip != null)
+        {
+            spiderAudioSource.Play();
+        }
+
         spiderAnimator.SetTrigger("Jump");
         spiderRB.velocity = Vector2.zero;
         spiderRB.AddForce(Direction * Force);
@@ -132,6 +168,15 @@ public class SpiderMotor : MonoBehaviour
 
     private void OnDisable()
     {
+        if (AudioManager.Instance) 
+        {
+            //Stop the game music
+            AudioManager.Instance.StopAudio();
+
+            //Play on Death
+            AudioManager.Instance.PlayAudioOneShot(deathClip);
+        }
+
         playerInputs.Disable();
 
         //If we become disabled, means we lost!
@@ -147,6 +192,60 @@ public class SpiderMotor : MonoBehaviour
     void ResetLevel() 
     {
         SceneManager.LoadScene(0);
+    }
+
+
+    AudioClip GetRandomJumpAudioClip()
+    {
+        int randomJump = Random.Range(0, JumpClips.Length);
+
+        if (randomJump < JumpClips.Length)
+        {
+            if (JumpClips[randomJump] != null)
+            {
+                return JumpClips[randomJump];
+            }
+        }
+
+        return null;
+    }
+
+    AudioClip GetRandomShootingAudioClip()
+    {
+        int randomJump = Random.Range(0, ShootingClips.Length);
+
+        if (randomJump < ShootingClips.Length)
+        {
+            if (ShootingClips[randomJump] != null)
+            {
+                return ShootingClips[randomJump];
+            }
+        }
+
+        return null;
+    }
+
+    public void Kill(Vector3 KillDirection) 
+    {
+        if (spiderAnimator != null) 
+        {
+            if (AudioManager.Instance)
+            {
+                AudioManager.Instance.StopAudio();
+                AudioManager.Instance.PlayAudioOneShot(deathClip);
+            }
+
+            spiderAnimator.SetBool("IsDead", true);
+            isAlive = false;
+            spiderCollider.isTrigger = true;
+
+            movementInput.x = 0;
+            spiderRB.velocity = Vector2.zero;
+
+            spiderRB.constraints = RigidbodyConstraints2D.None;
+            KillDirection.Normalize();
+            LaunchSpider(KillDirection, 200);
+        }
     }
 
 }
