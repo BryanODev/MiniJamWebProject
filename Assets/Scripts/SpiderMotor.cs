@@ -9,7 +9,8 @@ public class SpiderMotor : MonoBehaviour
 {
     public float spiderMoveSpeed;
     public Camera playerCamera;
-    PlayerInputs playerInputs;
+
+    InputManager inputManager;
     Rigidbody2D spiderRB;
     Animator spiderAnimator;
     BoxCollider2D spiderCollider;
@@ -37,8 +38,7 @@ public class SpiderMotor : MonoBehaviour
         spiderRB = GetComponent<Rigidbody2D>();
         spiderAnimator = GetComponent<Animator>();
 
-        playerInputs = new PlayerInputs();
-        playerInputs.Enable();
+        inputManager = InputManager.Instance;
 
         spiderAudioSource = GetComponent<AudioSource>();
         spiderCollider = GetComponent<BoxCollider2D>();
@@ -52,11 +52,6 @@ public class SpiderMotor : MonoBehaviour
         SetUpPlayerInputs();
     }
 
-    private void OnEnable()
-    {
-        playerInputs.Enable();
-    }
-
     void OnGameStart() 
     {
         Debug.Log("Spider is now playing");
@@ -64,11 +59,18 @@ public class SpiderMotor : MonoBehaviour
 
     void SetUpPlayerInputs()
     {
-        playerInputs.Keyboard.Move.performed += ctx => AddMovementInput(ctx.ReadValue<float>());
-        playerInputs.Keyboard.Fire.performed += ctx => WantsToFireWeb();
 
-        //Debuging only
-        playerInputs.Keyboard.ResetLevel.performed += ctx => ResetLevel();
+#if UNITY_STANDALONE_WIN || UNITY_WEBGL || UNITY_EDITOR
+
+#endif
+
+#if UNITY_ANDROID || UNITY_IOS
+
+#endif
+
+        inputManager.GetPlayerInputsClass().Keyboard.Move.performed += ctx => AddMovementInput(ctx.ReadValue<float>());
+        inputManager.GetPlayerInputsClass().Keyboard.Fire.performed += ctx => WantsToFireWeb();
+
     }
 
     private void Update()
@@ -105,7 +107,7 @@ public class SpiderMotor : MonoBehaviour
 
     void WantsToFireWeb() 
     {
-        if (FireWebCoroutine == null) 
+        if (FireWebCoroutine == null && gameObject.activeSelf) 
         {
             FireWebCoroutine = StartCoroutine(FireWeb());
         }
@@ -194,23 +196,9 @@ public class SpiderMotor : MonoBehaviour
             AudioManager.Instance.PlayAudioOneShot(deathClip);
         }
 
-        playerInputs.Disable();
-
         //If we become disabled, means we lost!
         GameMode.Instance.OnPlayerLost();
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(cursorPosition, .25f);
-    }
-
-    void ResetLevel() 
-    {
-        SceneManager.LoadScene(0);
-    }
-
 
     AudioClip GetRandomJumpAudioClip()
     {
