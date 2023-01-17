@@ -411,6 +411,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8523592443472629018, guid: 20c294be9dfcb654581b288381f2dd25, type: 3}
+      propertyPath: scoreToGive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8523592443472629021, guid: 20c294be9dfcb654581b288381f2dd25, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -597,6 +601,14 @@ PrefabInstance:
       propertyPath: spider
       value: 
       objectReference: {fileID: 1992394821}
+    - target: {fileID: 4418161660494415918, guid: 9834f349535b7474f92c96060c15296b, type: 3}
+      propertyPath: waterSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4418161660494415918, guid: 9834f349535b7474f92c96060c15296b, type: 3}
+      propertyPath: fastWaterSpeed
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9834f349535b7474f92c96060c15296b, type: 3}
 --- !u!1001 &4542470597261190789
