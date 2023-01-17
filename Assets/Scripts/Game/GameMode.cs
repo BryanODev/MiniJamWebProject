@@ -25,6 +25,11 @@ public class GameMode : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        StartGame();
+    }
+
     public void StartGame() 
     {
         //We start game

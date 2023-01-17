@@ -41,7 +41,7 @@ public class LevelManager : MonoBehaviour
 
             if (segment)
             {
-                segment.SetUpLevelSegment(this);
+                segment.InitializeSegment(this);
                 segments.Add(segment);
             }
         }
@@ -101,6 +101,14 @@ public class LevelManager : MonoBehaviour
             playerCamera.position = CameraLocalPositionInSegment;
 
             water.SetYPosition(spider.position.y - water.playerToWaterDistance);
+        }
+    }
+
+    public void ResetAllSegments() 
+    {
+        foreach (LevelSegment levelSegment in segments) 
+        {
+            levelSegment.ResetLevelSegment();
         }
     }
 }

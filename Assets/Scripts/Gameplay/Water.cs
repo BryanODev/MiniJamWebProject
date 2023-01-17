@@ -47,10 +47,19 @@ public class Water : MonoBehaviour
         canMove = false;
     }
 
-    public void SetYPosition(float YPOs) 
+    public void SetYPosition(float YPos) 
     {
         Vector3 pos = transform.position;
-        pos.y = YPOs;
+        pos.y = YPos;
         transform.position = pos;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //Destroy only insects and Players
+        if (collision.CompareTag("Insect") || collision.CompareTag("Player"))
+        {
+            collision.gameObject.SetActive(false);
+        }
     }
 }

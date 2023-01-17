@@ -44,3 +44,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 1932155279
+    locked: 0
+  - name: Structures
+    uniqueID: 3539687063
+    locked: 0
+  - name: Projectiles
+    uniqueID: 2226930909
+    locked: 0
+  - name: Entities
+    uniqueID: 4121406349
+    locked: 0
+  - name: Foreground
+    uniqueID: 1346625205
+    locked: 0
+  - name: UI
+    uniqueID: 603026565
+    locked: 0

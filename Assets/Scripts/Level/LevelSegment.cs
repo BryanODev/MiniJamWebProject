@@ -23,7 +23,7 @@ public class LevelSegment : MonoBehaviour
         SetUpLevelSegment();
     }
 
-    public void SetUpLevelSegment(LevelManager manager) 
+    public void InitializeSegment(LevelManager manager) 
     {
         levelManager = manager;
     }
@@ -34,6 +34,7 @@ public class LevelSegment : MonoBehaviour
         float LevelSegmentPipeSpawnYLocation = -10;
         float LevelSegmentSpikesSpawnYLocation = -5;
 
+        //Spawn Fly
         for (int i = 0; i < 10; i++)
         {
             Vector2 SpawnPos = transform.position;
@@ -44,6 +45,7 @@ public class LevelSegment : MonoBehaviour
             LevelSegmentFlySpawnYLocation += 3;
         }
 
+        //Spawn Pipes
         for (int i = 0; i < 3; i++) 
         {
             Vector2 SpawnLocation = transform.position;
@@ -64,6 +66,7 @@ public class LevelSegment : MonoBehaviour
             LevelSegmentPipeSpawnYLocation += 10;
         }
 
+        //Spawn Spikes
         for (int i = 0; i < 3; i++)
         {
             Vector2 SpawnLocation = transform.position;
@@ -131,6 +134,7 @@ public class LevelSegment : MonoBehaviour
     {
         Debug.Log(transform.childCount);
         float childCount = transform.childCount;
+
         //Put every child back to the object pooler
         for (int i = 0; i < childCount; i++) 
         {
@@ -141,8 +145,10 @@ public class LevelSegment : MonoBehaviour
                 Debug.Log("Moved Child: " + i + " index");
                 
                 child.position = pooler.transform.position;
+
                 //Problem with parenting? Idk
                 //pooler.SetObjectToPoolerParent(child); //child.SetParent(ObjectPooler.Instance.GetPoolerTransform());
+
                 child.gameObject.SetActive(false);
 
             }
